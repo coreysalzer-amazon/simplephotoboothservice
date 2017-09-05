@@ -1,0 +1,76 @@
+body {
+	margin: 0;
+	position: relative;
+	background: #fff;
+}
+
+.chat-camera {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+
+.capture-button-container {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	right: 50%;
+	transition: all 200ms ease-in-out;
+}
+
+.capture-button-container:hover {
+	transform: scale(1.05);
+}
+
+.capture-button-outer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 50%;
+	border: 5px solid #2b2b2b;
+	background: transparent;
+	height: 75px;
+	width: 75px;
+}
+
+.capture-button-inner {
+	position: absolute;
+	top: 10px;
+	right: 0;
+	left: 10px;
+	bottom: 0;
+	border-radius: 50%;
+	background: #2b2b2b;
+	height: 65px;
+	width: 65px;
+}
+
+#video {
+	border: 1px solid black;
+}
+
+#canvas {
+	border: 1px solid black;
+}
+
+#photo {
+	position: absolute;
+	border: 1px solid black;
+}
+
+#capture {
+	position: absolute;
+	bottom: 0;
+	color: #2b2b2b;
+	font-size: 72px;
+	transition: all 200ms ease-in-out;
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
+}
+
+#capture:hover {
+	transform: scale(1.05);
+}
