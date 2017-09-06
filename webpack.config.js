@@ -2,7 +2,6 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-	devtool: "cheap-module-eval-source-map",
 	entry: [
 		"./src/index"
 	],
@@ -17,7 +16,7 @@ module.exports = {
 					"stage-2"
 				]
 			},
-			exclude: /client\/node_modules/
+			exclude: /node_modules/
 		},{ 
 			test: /\.(css|scss|sass)$/,
 			loader: "style!css!sass"
@@ -28,7 +27,7 @@ module.exports = {
 	},
 	output: {
 		path: path.join(__dirname, "/public"),
-		publicPath: "./public",
+		publicPath: "/",
 		filename: "spbs-core.js",
 	},
 	devServer: {
@@ -38,16 +37,6 @@ module.exports = {
 	plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoErrorsPlugin(),
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
-		}),
-		new webpack.DefinePlugin({
-			"process.env": {
-				"NODE_ENV": JSON.stringify("production")
-			}
-		})
+		new webpack.NoErrorsPlugin()
 	]
 };

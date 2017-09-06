@@ -1,3 +1,3 @@
 # simplephotoboothservice
 
-To run, do ./app and "npm start" in another tab
+To run, do "npm start"
