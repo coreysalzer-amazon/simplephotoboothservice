@@ -1,6 +1,8 @@
 body {
 	margin: 0;
+	background: white;
 	position: relative;
+	overflow: hidden;
 }
 
 .chat-camera {
@@ -13,7 +15,7 @@ body {
 
 .capture-button-container {
 	position: absolute;
-	bottom: 0;
+	bottom: 50;
 	left: 50%;
 	right: 50%;
 	transition: all 200ms ease-in-out;
@@ -23,37 +25,12 @@ body {
 	transform: scale(1.05);
 }
 
-.capture-button-outer {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	border-radius: 50%;
-	border: 5px solid #2b2b2b;
-	background: transparent;
-	height: 75px;
-	width: 75px;
-}
-
-.capture-button-inner {
-	position: absolute;
-	top: 10px;
-	right: 0;
-	left: 10px;
-	bottom: 0;
-	border-radius: 50%;
-	background: #2b2b2b;
-	height: 65px;
-	width: 65px;
-}
-
 #video {
   	min-width: 100%;
-	min-height: 100%; 
-  	width: auto;
-  	height: auto;
-  	position: absolute;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	position: absolute;
   	top: 50%;
   	left: 50%;
   	transform: translate(-50%,-50%);
@@ -71,12 +48,25 @@ body {
 #capture {
 	position: absolute;
 	bottom: 0;
-	color: #2b2b2b;
-	font-size: 72px;
+	color: #f4ca64;
+	font-size: 90px;
 	transition: all 200ms ease-in-out;
 	box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
 }
 
 #capture:hover {
 	transform: scale(1.05);
+}
+
+.fa {
+	position: absolute;
+	z-index: 2;
+}
+
+.fa.fa-close {
+	margin-left: 10px;
+}
+
+.fa.fa-save {
+	margin-left: 25px;
 }
