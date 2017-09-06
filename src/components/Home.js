@@ -17,6 +17,7 @@ export default class App extends Component {
 		this.registerCameraEvents = this.registerCameraEvents.bind(this);
 		this.takePicture = this.takePicture.bind(this);
 		this.uploadImage = this.uploadImage.bind(this);
+		this.setWindowHeight = this.setWindowHeight.bind(this);
 	}
 
 	componentDidMount(){
@@ -28,15 +29,10 @@ export default class App extends Component {
 		window.addEventListener("resize", function(event){
 			self.state.height = window.innerHeight;
 			self.state.width = window.innnerWidth;
-			document.getElementById("video").style.height = window.innerHeight;
-			document.getElementById("photo").style.height = window.innerHeight;
-			document.getElementById("video").style.width = window.innerWidth;
-			document.getElementById("photo").style.width = window.innerWidth;
+			self.setWindowHeight();
 		});
-		document.getElementById("video").style.height = window.innerHeight;
-		document.getElementById("photo").style.height = window.innerHeight;
-		document.getElementById("video").style.width = window.innerWidth;
-		document.getElementById("photo").style.width = window.innerWidth;
+
+		self.setWindowHeight();
 	}
 
 	/**
@@ -258,6 +254,23 @@ export default class App extends Component {
 			e.preventDefault();
 		}, false);
 	}
+	
+	/**
+	 * SetWindowHeight
+	 * @description: Dynamically change the size of the photo booth frame
+	 * @param: {none}
+	 * @return: {none}
+	 */
+	setWindowHeight() {
+		if(window.innerHeight < window.innerWidth) {
+			document.getElementById("video").style.width = window.innerWidth;
+			document.getElementById("photo").style.width = window.innerWidth;
+		} 
+		else {
+			document.getElementById("video").style.height = window.innerHeight;
+			document.getElementById("photo").style.height = window.innerHeight;
+		}
+	}
 
 	render(){
 		return (
@@ -270,10 +283,8 @@ export default class App extends Component {
 					<img src="" id="photo" alt="" style={{display: "none"}}/>
 					<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav"></audio>
 					<div className="capture-button-container">
-						<div className="capture-button-outer"></div>
-						<div className="capture-button-inner"></div>
+						<i id="capture" className="fa fa-circle-o"></i>
 					</div>
-					<i id="capture" className="fa fa-circle-o"></i>
 				</div>
 			</div>
 		);
