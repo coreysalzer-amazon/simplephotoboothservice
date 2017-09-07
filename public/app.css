@@ -1,11 +1,32 @@
-body {
-	margin: 0;
-	background: white;
-	position: relative;
-	overflow: hidden;
+* {
+	text-rendering: optimizeLegibility;
+	box-sizing: border-box;
 }
 
-.chat-camera {
+body {
+	position: relative;
+	background: #000000;
+	font-family: "Helvetica Neue", sans-serif;
+	font-size: 13px;
+	line-height: 1.4;
+	letter-spacing: -0.1px;
+	margin: 0;
+	display: block;
+	padding: 0;
+}
+
+html, body {
+	-webkit-font-smoothing: auto;
+	color: #424242;
+}
+
+html, #spbs, body {
+	overflow: hidden !important;
+	height: 100%;
+	min-height: 100%;
+}
+
+.camera {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -26,36 +47,67 @@ body {
 }
 
 #video {
-  	min-width: 100%;
-	min-height: 100%;
-	width: auto;
-	height: auto;
-	position: absolute;
-  	top: 50%;
-  	left: 50%;
-  	transform: translate(-50%,-50%);
+	position: relative;
+	height: 100vh;
+	margin: 0 auto;
+	width: 100%;
 }
 
 #canvas {
-	border: 1px solid black;
+	display: none;
 }
 
 #photo {
-	position: absolute;
-	border: 1px solid black;
+	position: relative;
+	height: 100%;
+	margin: 0 auto;
+	display: none;
 }
 
 #capture {
 	position: absolute;
-	bottom: 0;
-	color: #f4ca64;
+	bottom: 30px;
+	color: #FFA717;
 	font-size: 90px;
 	transition: all 200ms ease-in-out;
+	transform-origin:top right;
 	box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
 }
 
 #capture:hover {
 	transform: scale(1.05);
+}
+
+.capture-button-options-close, .capture-button-options-save {
+	position: absolute;
+	color: white !important;
+	height: 55px;
+	font-size: 48px;
+}
+
+.capture-button-options-close {
+	top: 0;
+	left: 0;
+	display: inline-block;
+	margin-left: 15px;
+}
+
+.capture-button-options-save {
+	bottom: 0;
+	right: 0;
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.brand-logo {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 65px;
+}
+
+.brand-logo img {
+	height: 65px;
 }
 
 .fa {
@@ -64,9 +116,10 @@ body {
 }
 
 .fa.fa-close {
-	margin-left: 10px;
+	display: none;
 }
 
 .fa.fa-save {
-	margin-left: 25px;
+	display: none;
 }
+
