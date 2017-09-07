@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Modal from './Modal';
 
 export default class App extends Component {
 	constructor(){
@@ -7,7 +8,8 @@ export default class App extends Component {
 			height: window.innerHeight,
 			width: window.innerWidth,
 			stream: null,
-			captureState: 0
+			captureState: 0, 
+			showModal: false
 		};
 
 		// Camera methods
@@ -19,6 +21,10 @@ export default class App extends Component {
 		this.uploadImage = this.uploadImage.bind(this);
 		this.setWindowHeight = this.setWindowHeight.bind(this);
 		this.getVideoDimensions = this.getVideoDimensions.bind(this);
+
+		//Modal methods
+		this.openModal = this.openModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
 	}
 	
 	componentDidMount(){
@@ -258,7 +264,7 @@ export default class App extends Component {
 			video.style.display = "inline-block";
 			canvas.style.display = "none";
 			capture.style.display = "inline-block";
-			alert("yo this feature doesnt work yet");
+			self.openModal();
 			e.preventDefault();
 			return;
 		}, false);
@@ -289,6 +295,14 @@ export default class App extends Component {
 		document.getElementById("video").style.width = window.innerWidth;
 	}
 
+	openModal() {
+		this.setState({showModal: true});
+	}
+
+	closeModal() {
+		this.setState({showModal: false});
+	}
+
 	render(){
 		return (
 			<div className="camera">
@@ -306,6 +320,9 @@ export default class App extends Component {
 						<img src="/img/aws.png" alt="aws"/>
 					</div>
 				</div>
+				<div className="modal-container">
+					<Modal show={this.state.showModal} onClose={this.closeModal}></Modal>
+		        </div>
 			</div>
 		);
 	}
