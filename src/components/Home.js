@@ -299,8 +299,9 @@ export default class App extends Component {
 		this.setState({showModal: true});
 	}
 
-	closeModal() {
+	closeModal(contactInfo) {
 		this.setState({showModal: false});
+		console.log(contactInfo);
 	}
 
 	render(){

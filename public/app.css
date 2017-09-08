@@ -122,3 +122,13 @@ html, #spbs, body {
 .fa.fa-save {
 	display: none;
 }
+
+#send-button:hover {
+	transform: scale(1.05);
+}
+
+#contact-info:focus {
+    border-color: black;
+    box-shadow: 0 1px 1px black inset, 0 0 8px black;
+    outline: 0 none;
+}
