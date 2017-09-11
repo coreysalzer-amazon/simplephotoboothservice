@@ -22,10 +22,10 @@ class Modal extends React.Component {
     else if (userInput != "" && phoneRe.test(userInput)) {
       //convert number to E164 format for use with SNS - pulled from https://stackoverflow.com/questions/16748854/javascript-convert-phone-number-from-e164-to-international-format
       //TODO - this is broken - need to import these libraries
-      var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-      var number = phoneUtil.parse(userInput, null);
-      var result = phoneUtil.format(number, com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-      var contactInfo = {'type': 'phone', 'value': result}
+		//var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+		//var number = phoneUtil.parse(userInput, null);
+		//var result = phoneUtil.format(number, com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+		//var contactInfo = {'type': 'phone', 'value': result}
     }
     else {
       document.getElementById("error-message").style.visibility = "visible";
