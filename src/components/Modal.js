@@ -6,6 +6,11 @@ class Modal extends React.Component {
   constructor(){
     super();
     this.sendButtonClicked = this.sendButtonClicked.bind(this);
+    this.closeButtonClicked = this.closeButtonClicked.bind(this);
+  }
+
+  closeButtonClicked() {
+    this.props.onClose(null);
   }
 
   sendButtonClicked() {
@@ -58,7 +63,7 @@ class Modal extends React.Component {
       borderRadius: 5,
       maxWidth: 500,
       margin: '0 auto',
-      padding: 30
+      padding: 20,
     };
 
     const centerStyle = {
@@ -93,9 +98,19 @@ class Modal extends React.Component {
       visibility: 'hidden'
     }
 
+    const modalClose = {
+      color: '#FFA717',
+      fontWeight: 'bold',
+      background: 'black',
+      borderColor: 'black',
+      fontSize: 'large',
+      marginTop: -20
+    }
+
     return (
       <div className="backdrop" style={backdropStyle}>
         <div className="modal" style={modalStyle}>
+          <button className="modal-close" style={modalClose} onClick={this.closeButtonClicked}>X</button>
           <center style={centerStyle}>Send To Email or Phone Number</center>
           <input id="contact-info" style={inputStyle} autoFocus></input>
           <center id="error-message" style={errorMessageStyle}>Invalid Input</center>

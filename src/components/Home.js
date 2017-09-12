@@ -301,7 +301,10 @@ export default class App extends Component {
 
 	closeModal(contactInfo) {
 		this.setState({showModal: false});
-		console.log(contactInfo);
+
+		if (contactInfo != null) {
+			console.log(contactInfo);
+		}
 	}
 
 	render(){
