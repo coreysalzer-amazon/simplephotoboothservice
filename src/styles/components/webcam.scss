@@ -1,0 +1,98 @@
+.camera {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+
+.capture-button-container {
+	position: absolute;
+	bottom: 50;
+	left: 50%;
+	right: 50%;
+	transition: all 200ms ease-in-out;
+}
+
+.capture-button-container:hover {
+	transform: scale(1.05);
+}
+
+#video {
+	position: relative;
+	height: 100vh;
+	margin: 0 auto;
+	width: 100%;
+}
+
+#canvas {
+	display: none;
+}
+
+#photo {
+	position: relative;
+	height: 100%;
+	margin: 0 auto;
+	display: none;
+}
+
+#capture {
+	position: absolute;
+	bottom: 30px;
+	color: #FFA717;
+	font-size: 90px;
+	transition: all 200ms ease-in-out;
+	transform-origin:top right;
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
+}
+
+#capture:hover {
+	transform: scale(1.05);
+}
+
+.capture-button-options-close, .capture-button-options-save {
+	position: absolute;
+	color: white !important;
+	height: 55px;
+	font-size: 48px;
+}
+
+.capture-button-options-close {
+	top: 0;
+	left: 0;
+	display: inline-block;
+	margin-left: 15px;
+}
+
+.capture-button-options-save {
+	bottom: 0;
+	right: 0;
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.brand-logo {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 65px;
+}
+
+.brand-logo img {
+	height: 65px;
+}
+
+.fa {
+	position: absolute;
+	z-index: 2;
+}
+
+.fa.fa-close {
+	display: none;
+}
+
+.fa.fa-save {
+	display: none;
+}
+
+

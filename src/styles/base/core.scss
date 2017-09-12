@@ -1,0 +1,27 @@
+* {
+	text-rendering: optimizeLegibility;
+	box-sizing: border-box;
+}
+
+body {
+	position: relative;
+	background: #000000;
+	font-family: "Helvetica Neue", sans-serif;
+	font-size: 13px;
+	line-height: 1.4;
+	letter-spacing: -0.1px;
+	margin: 0;
+	display: block;
+	padding: 0;
+}
+
+html, body {
+	-webkit-font-smoothing: auto;
+	color: #424242;
+}
+
+html, #spbs, body {
+	overflow: hidden !important;
+	height: 100%;
+	min-height: 100%;
+}
