@@ -1,4 +1,32 @@
-.camera, .camera-container {
+* {
+	text-rendering: optimizeLegibility;
+	box-sizing: border-box;
+}
+
+body {
+	position: relative;
+	background: #000000;
+	font-family: "Helvetica Neue", sans-serif;
+	font-size: 13px;
+	line-height: 1.4;
+	letter-spacing: -0.1px;
+	margin: 0;
+	display: block;
+	padding: 0;
+}
+
+html, body {
+	-webkit-font-smoothing: auto;
+	color: #424242;
+}
+
+html, #spbs, body {
+	overflow: hidden !important;
+	height: 100%;
+	min-height: 100%;
+}
+
+.camera {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -95,4 +123,12 @@
 	display: none;
 }
 
+#send-button:hover {
+	transform: scale(1.05);
+}
 
+#contact-info:focus {
+    border-color: black;
+    box-shadow: 0 1px 1px black inset, 0 0 8px black;
+    outline: 0 none;
+}

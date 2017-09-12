@@ -3,14 +3,6 @@ import Modal from './Modal';
 import Webcam from './Webcam';
 
 class Home extends Component {
-	constructor(){
-		super();
-
-		//Modal methods
-		this.openModal = this.openModal.bind(this);
-		this.closeModal = this.closeModal.bind(this);
-	}
-
 	componentDidMount(){
 		var self = this;
 		// Enable the webcam
@@ -19,17 +11,9 @@ class Home extends Component {
 		}, 1000);
 	}
 
-	openModal() {
-		this.setState({showModal: true});
-		this.webcam.disableWebcam();
-	}
-
-	closeModal(contactInfo) {
-		this.setState({showModal: false});
-
-		if (contactInfo != null) {
-			console.log(contactInfo);
-		}
+	openModal(){
+		this._webcam.disableWebcam();
+		this._modal.openModal();
 	}
 
 	render(){
@@ -37,7 +21,7 @@ class Home extends Component {
 			<div className="camera">
 				<div className="camera-container">
 					<i className="capture-button-options-close fa fa-close" id="capture-remove"></i>
-					<i className="capture-button-options-save fa fa-save" id="capture-upload"></i>
+					<i className="capture-button-options-save fa fa-save" id="capture-upload" onClick={this.openModal.bind(this)}></i>
 					<Webcam state={this.props} ref={(webcam) => { this._webcam = webcam}}/>
 					<canvas id="canvas"></canvas>
 					<img src="" id="photo" alt=""/>
@@ -49,9 +33,7 @@ class Home extends Component {
 						<img src="/img/aws.png" alt="aws"/>
 					</div>
 				</div>
-				<div className="modal-container">
-					<Modal></Modal>
-		        </div>
+				<Modal state={this.props} ref={(modal) => { this._modal = modal}}></Modal>
 			</div>
 		);
 	}

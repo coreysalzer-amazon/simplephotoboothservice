@@ -1,16 +1,23 @@
 //Code from https://github.com/dceddia/modal-in-react
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { hasClass, removeClass, addClass } from '../utils/dom';
 
 class Modal extends React.Component {
   constructor(){
     super();
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.sendButtonClicked = this.sendButtonClicked.bind(this);
-    this.closeButtonClicked = this.closeButtonClicked.bind(this);
   }
 
-  closeButtonClicked() {
-    this.props.onClose(null);
+  openModal() {
+    this.props.state.storeModalState(true);
+    removeClass(document.getElementById('modal-window-container'), 'hidden');
+  }
+
+  closeModal() {
+    this.props.state.storeModalState(false);
+    addClass(document.getElementById('modal-window-container'), 'hidden');
   }
 
   sendButtonClicked() {
@@ -37,97 +44,27 @@ class Modal extends React.Component {
       document.getElementById("contact-info").style.autoFocus = true;
       return;
     }
-    this.props.onClose(contactInfo);
+
+    this.closeModal();
   }
 
   render() {
-    // Render nothing if the "show" prop is false
-    if(!this.props.show) {
-      return null;
-    }
-
-    // The gray background
-    const backdropStyle = {
-      position: 'fixed',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50,
-    };
-
-    // The modal "window"
-    const modalStyle = {
-      backgroundColor: 'black',
-      borderRadius: 5,
-      maxWidth: 500,
-      margin: '0 auto',
-      padding: 20,
-    };
-
-    const centerStyle = {
-      color: '#FFA717',
-      fontSize: 'large',
-      fontWeight: 300
-    };
-
-    const inputStyle = {
-      width: '100%',
-      marginTop: 20,
-      marginBottom: 5,
-      fontSize: 'xx-large',
-      textAlign: 'center',
-      background: 'black',
-      borderColor: 'black',
-      color: '#FFA717', 
-      fontWeight: 'bold'
-    };
-
-    const buttonStyle = {
-      display: 'block',
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-
-    const errorMessageStyle = {
-      color: 'maroon',
-      fontStyle: 'italic',
-      fontWeight: 700,
-      marginBottom: 5,
-      visibility: 'hidden'
-    }
-
-    const modalClose = {
-      color: '#FFA717',
-      fontWeight: 'bold',
-      background: 'black',
-      borderColor: 'black',
-      fontSize: 'large',
-      marginTop: -20,
-      marginLeft: -10
-    }
-
     return (
-      <div className="backdrop" style={backdropStyle}>
-        <div className="modal" style={modalStyle}>
-          <button className="modal-close" style={modalClose} onClick={this.closeButtonClicked}>X</button>
-          <center style={centerStyle}>Send To Email or Phone Number</center>
-          <input id="contact-info" style={inputStyle} autoFocus></input>
-          <center id="error-message" style={errorMessageStyle}>Invalid Input</center>
-          <div className="footer">
-            <input id="send-button" type="image" style={buttonStyle} src="/img/snsicon.png" onClick={this.sendButtonClicked}></input>
+      <div id="modal-window-container" className="modal-window-container hidden">
+        <div className="backdrop">
+          <div className="modal-container">
+            <button id="modal-close" onClick={this.closeModal}>X</button>
+            <center id="modal-heading">Send To Email or Phone Number</center>
+            <input id="contact-info" autoFocus></input>
+            <center id="error-message">Invalid Input</center>
+            <div className="footer">
+              <input id="send-button" type="image" src="/img/snsicon.png" onClick={this.sendButtonClicked}></input>
+            </div>
           </div>
         </div>
       </div>
     );
   }
 }
-	/*
-Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  show: PropTypes.bool,
-  children: PropTypes.node
-};
-*/
+
 export default Modal;

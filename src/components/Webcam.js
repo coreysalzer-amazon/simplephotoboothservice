@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import clone from 'clone';
 
 class Webcam extends Component {
 	constructor(){
@@ -177,7 +178,7 @@ class Webcam extends Component {
 		// Delay this to wait for image to load and be drawn to canvas
 		setTimeout(function(){
 			// Get image attached to the canvas
-			var data = canvas.toDataURL('image/png');
+			var data = clone(canvas.toDataURL('image/png'));
 
 			// Set the image to the photo element
 			photo.setAttribute('src', data);
@@ -244,22 +245,22 @@ class Webcam extends Component {
 			captureRemove.style.display = "none";
 			captureUpload.style.display = "none";
 			photo.style.display = "none";
-			video.style.display = "inline-block";
+			video.style.display = "block";
 			canvas.style.display = "none";
-			capture.style.display = "inline-block";
+			capture.style.display = "block";
 			e.preventDefault();
 		}, false);
 
 		// Handle click event for uploading captured image
+		// Event for Save button
 		captureUpload.addEventListener('click', function(e){
 			self.storeCaptureState(0);
 			captureRemove.style.display = "none";
 			captureUpload.style.display = "none";
-			photo.style.display = "none";
-			video.style.display = "inline-block";
+			photo.style.display = "block";
+			video.style.display = "none";
 			canvas.style.display = "none";
-			capture.style.display = "inline-block";
-			//self.openModal();
+			capture.style.display = "none";
 			e.preventDefault();
 		}, false);
 
@@ -271,7 +272,7 @@ class Webcam extends Component {
 				captureRemove.style.display = "none";
 				captureUpload.style.display = "none";
 				photo.style.display = "none";
-				video.style.display = "inline-block";
+				video.style.display = "block";
 				canvas.style.display = "none";
 				self.storeCaptureState(0);
 			}

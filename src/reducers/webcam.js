@@ -9,8 +9,7 @@ const INITIAL_STATE = {
 	height: window.innerHeight,
 	width: window.innerWidth,
 	stream: null,
-	captureState: 0,
-	showModal: false
+	captureState: 0
 };
 
 export default function(state=INITIAL_STATE, action){
