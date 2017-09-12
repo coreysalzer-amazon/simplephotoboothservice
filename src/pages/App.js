@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import AppContainer from '../containers/AppContainer';
+import '../styles/app.scss';
 
 class App extends Component {
 	render(){
-		return (
-			<div>
+		return(
+			<AppContainer>
 				{ this.props.children }
-			</div>
+			</AppContainer>
 		);
-	}
+	}	
 }
 
 export default App;

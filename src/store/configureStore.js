@@ -7,7 +7,7 @@ export default function configureStore(){
 	return createStore(
 		reducers,
 		{},
-		applyMiddleware(thunk)
+		applyMiddleware(thunk, logger)
 	);
 };
 
