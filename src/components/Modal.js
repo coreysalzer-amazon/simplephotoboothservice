@@ -104,7 +104,8 @@ class Modal extends React.Component {
       background: 'black',
       borderColor: 'black',
       fontSize: 'large',
-      marginTop: -20
+      marginTop: -20,
+      marginLeft: -10
     }
 
     return (
