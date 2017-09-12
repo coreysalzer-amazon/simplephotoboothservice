@@ -21,7 +21,7 @@ class Home extends Component {
 
 	openModal() {
 		this.setState({showModal: true});
-		this.webcam.disableWebcam();
+		this._webcam.disableWebcam();
 	}
 
 	closeModal(contactInfo) {
