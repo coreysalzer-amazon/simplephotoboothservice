@@ -1,44 +1,43 @@
 import React, { Component } from 'react';
 
-export default class Webcam extends Component {
+class Webcam extends Component {
 	constructor(){
 		super();
-		this.state = {
-			height: window.innerHeight,
-			width: window.innerWidth,
-			stream: null,
-			captureState: 0, 
-			showModal: false
-		};
-
 		// Camera methods
 		this.enableWebcam = this.enableWebcam.bind(this);
 		this.disableWebcam = this.disableWebcam.bind(this);
-		this.handleTakePicture = this.handleTakePicture.bind(this);
 		this.registerCameraEvents = this.registerCameraEvents.bind(this);
 		this.takePicture = this.takePicture.bind(this);
 		this.uploadImage = this.uploadImage.bind(this);
-		this.setWindowHeight = this.setWindowHeight.bind(this);
 		this.getVideoDimensions = this.getVideoDimensions.bind(this);
-
-		//Modal methods
-		this.openModal = this.openModal.bind(this);
-		this.closeModal = this.closeModal.bind(this);
+		
+		// State methods	
+		this.storeStream = this.storeStream.bind(this);
+		this.storeCaptureState = this.storeCaptureState.bind(this);
 	}
-	
+
 	componentDidMount(){
 		var self = this;
-		this.registerCameraEvents();
-		setTimeout(function(){
-			self.enableWebcam();	
-		}, 1000);
+		// Handle visuals on camera events
+		self.registerCameraEvents();
 		window.onresize = function(event){
-			self.setWindowHeight();
-			self.setState({width: window.innerWidth});
-			self.setState({height: window.innerHeight});
+			// Store updated dimensions
+			// Will trigger video element to update its dimensions
+			self.props.state.storeHeight(window.innerHeight);
+			self.props.state.storeWidth(window.innerWidth);
 		};
 	}
 	
+	/**
+	 * StoreStream
+	 * @description: Store the stream instance
+	 * @param: {object} stream | Stream instance
+	 * @return: {none}
+	 */
+	storeStream(stream){
+		this.props.state.storeStream(stream);	
+	}
+
 	/**
 	 * Get Video Dimensions
 	 * @description: Get real dimensions of the video element
@@ -72,9 +71,8 @@ export default class Webcam extends Component {
 	 * @return: {none}
 	 */
 	enableWebcam(){
-		let streaming = false;
-		let video = document.querySelector("#video");
-		let canvas = document.querySelector("#canvas");
+		let video = document.getElementById("video");
+		let canvas = document.getElementById("canvas");
 		navigator.getMedia = (
 			navigator.getUserMedia ||
 			navigator.webkitGetUserMedia ||
@@ -90,10 +88,10 @@ export default class Webcam extends Component {
 			// Handle mozilla stream
 			if(navigator.mozGetUserMedia) {
 				video.mozSrcObject = stream;
-				self.setState({stream: stream});
+				self.storeStream(stream);
 			} else {
 				// All other streams
-				self.setState({stream: stream});
+				self.storeStream(stream);
 				var vendorURL = window.URL || window.webkitURL;
 				video.src = vendorURL.createObjectURL(stream);
 			}
@@ -104,23 +102,29 @@ export default class Webcam extends Component {
 
 		// Register video play event
 		video.addEventListener('canplay', function(ev){
-			if(!streaming){
-				video.setAttribute('width', self.state.width);
-				video.setAttribute('height', self.state.height);
-				streaming = true;
-			}
+			video.setAttribute('width', self.props.state.webcam.width);
+			video.setAttribute('height', self.props.state.webcam.height);
 		}, false);
-
 	}
 
 	/**
-	 * DisableWebcam
+	 * Disable Webcam
 	 * @description: Disable the webcam
 	 * @param: {none}
 	 * @return: {none}
 	 */
 	disableWebcam(){
-		this.state.stream.getTracks()[0].stop();
+		this.props.state.webcam.stream.getTracks()[0].stop();
+	}
+
+	/**
+	 * Store Capture State
+	 * @description: Stores the current capture state
+	 * @param: {none}
+	 * @return: {none}
+	 */
+	storeCaptureState(state){
+		this.props.state.storeCaptureState(state);
 	}
 
 	/**
@@ -130,53 +134,75 @@ export default class Webcam extends Component {
 	 * @return: {none}
 	 */
 	takePicture() {
-		var photo = document.querySelector("#photo");
-		var video = document.querySelector("#video");
-		var capture = document.querySelector('#capture')
-		var captureRemove = document.querySelector('#capture-remove');
-		var captureUpload = document.querySelector('#capture-upload');
-		var canvas = document.querySelector('#canvas');
+		let video = document.getElementById("video");
+		let canvas = document.getElementById("canvas");
+		let photo = document.getElementById("photo");
+		
+		let capture = document.querySelector('#capture');
+		let captureRemove = document.querySelector('#capture-remove');
+		let captureUpload = document.querySelector('#capture-upload');
+		
 		// Display the photo div
 		photo.style.display = "block";
+		
 		// Hide the video div
-		let videoh = this.getVideoDimensions()["height"];
-		let videow = this.getVideoDimensions()["width"];
-		console.log("video width: ", videow);
+		let vidHeight = this.getVideoDimensions()["height"];
+		let vidWidth = this.getVideoDimensions()["width"];
 		video.style.display = "none";
-		this.setState({captureState: 1});
+		this.storeCaptureState(1);
+		
 		// Hide the capture button
 		capture.style.display = "none";
+		
 		// Display the options for captured photos
 		captureRemove.style.display = "inline-block";
 		captureUpload.style.display = "inline-block";
+
 		// Get still image from the video and write it to the canvas element
-		canvas.setAttribute('width', videow);
-		canvas.setAttribute('height', videoh);
-		canvas.getContext('2d').drawImage(video, 0, 0, videow, videoh);
+		canvas.setAttribute('width', vidWidth);
+		canvas.setAttribute('height', vidHeight);
+		let ctx = canvas.getContext('2d');
+		ctx.drawImage(video, 0, 0, vidWidth, vidHeight);
+
+		// Draw AWS logo on to photo
+		var img = new Image();
+		img.onload = function () {
+    		ctx.drawImage(img, 0, 0, 150, 93);
+		}
+		img.src = "/img/aws.png";
+		
 		// Play camera sound
 		var sound = document.getElementById("audio");
 		sound.play()
-		// Get image attached to the canvas
-		var data = canvas.toDataURL('image/png');
-		// Set the image to the photo div
-		photo.setAttribute('src', data);
-		photo.style.height = videoh;
-		photo.style.width = videow;
-		// Hide the canvas
-		canvas.style.display = "none";
+		// Delay this to wait for image to load and be drawn to canvas
+		setTimeout(function(){
+			// Get image attached to the canvas
+			var data = canvas.toDataURL('image/png');
+
+			// Set the image to the photo element
+			photo.setAttribute('src', data);
+			photo.style.height = vidHeight;
+			photo.style.width = vidWidth;
+
+			// Hide the canvas
+			canvas.style.display = "none";
+		}, 200);
 	}
 
 	/**
-	 * UploadImage
+	 * Upload Image
 	 * @description: Upload the still image taken to the server
 	 * @param: {none}
 	 * @return: {promise} Upload image to server
 	 */
 	uploadImage(){
 		// Get image from canvas element
-		var data = document.querySelector("#canvas").toDataURL('image/png');
-		document.querySelector("#photo").setAttribute('src', data);
-		document.querySelector("#canvas").style.display = "none";
+		let data = document.querySelector("#canvas");
+		data.toDataURL('image/png');
+		let photo = document.querySelector("#photo");
+		photo.setAttribute('src', data);
+		let canvas = document.querySelector("#canvas");
+		canvas.style.display = "none";
 
 		// Code below from stackoverflow
 		// http://stackoverflow.com/a/12300351
@@ -195,40 +221,10 @@ export default class Webcam extends Component {
 		// Create Form Data instance and inject the image
 		var fd = new FormData();
 		fd.append('file', blob, Date.now() + '.jpg');
-		console.log("UPLOAD");
-		console.log(this.props);
-		//return client.upload(fd, this.props.sidebar.chatFocused.uuid);
 	}
 
 	/**
-	 * HandleTakePicture
-	 * @description: Handle the visual state of taking a picture
-	 * @param: {none}
-	 * @return: {none}
-	 */
-	handleTakePicture(e){
-		var chatCamera = document.querySelector(".chat-camera");
-		var chatTimeline = document.querySelector(".chat-timeline");
-		var captureRemove = document.querySelector("#capture-remove");
-		var captureUpload = document.querySelector("#capture-upload");
-		var photo = document.querySelector("#photo");
-		// Hide the camera div
-		if(hasClass(chatCamera, "active") && hasClass(chatTimeline, "camera-active")){
-			removeClass(chatCamera, "active");
-			removeClass(chatTimeline, "camera-active");
-			// Disable the webcam
-			this.disableWebcam();
-			return;
-		}
-		// Show the camera div
-		addClass(chatCamera, "active");
-		addClass(chatTimeline, "camera-active");
-		// Enable the webcam
-		this.enableWebcam();
-	}
-
-	/**
-	 * RegisterCameraEvents
+	 * Register Camera Events
 	 * @description: Register the camera button events
 	 * @param: {none}
 	 * @return: {none}
@@ -236,15 +232,15 @@ export default class Webcam extends Component {
 	registerCameraEvents(){
 		var captureRemove = document.querySelector("#capture-remove");
 		var captureUpload = document.querySelector("#capture-upload");
-		var video = document.querySelector("#video");
-		var photo = document.querySelector("#photo");
-		var canvas = document.querySelector("#canvas");
+		var video = document.getElementById("video");
+		var photo = document.getElementById("photo");
+		var canvas = document.getElementById("canvas");
 		var capture = document.querySelector('#capture');
 
 		var self = this;
 		// Handle click event for removing captured image
 		captureRemove.addEventListener('click', function(e){
-			self.setState({captureState: 0});
+			self.storeCaptureState(0);
 			captureRemove.style.display = "none";
 			captureUpload.style.display = "none";
 			photo.style.display = "none";
@@ -256,21 +252,20 @@ export default class Webcam extends Component {
 
 		// Handle click event for uploading captured image
 		captureUpload.addEventListener('click', function(e){
-			self.setState({captureState: 0});
+			self.storeCaptureState(0);
 			captureRemove.style.display = "none";
 			captureUpload.style.display = "none";
 			photo.style.display = "none";
 			video.style.display = "inline-block";
 			canvas.style.display = "none";
 			capture.style.display = "inline-block";
-			self.openModal();
+			//self.openModal();
 			e.preventDefault();
-			return;
 		}, false);
 
 		// Handle click event for taking a picture
 		capture.addEventListener('click', function(e){
-			if(self.state.captureState == 0){
+			if(self.props.state.webcam.captureState == 0){
 				self.takePicture();
 			} else {
 				captureRemove.style.display = "none";
@@ -278,29 +273,10 @@ export default class Webcam extends Component {
 				photo.style.display = "none";
 				video.style.display = "inline-block";
 				canvas.style.display = "none";
-				self.setState({captureState: 0});
+				self.storeCaptureState(0);
 			}
 			e.preventDefault();
 		}, false);
-	}
-	
-	/**
-	 * SetWindowHeight
-	 * @description: Dynamically change the size of the photo booth frame
-	 * @param: {none}
-	 * @return: {none}
-	 */
-	setWindowHeight() {
-		document.getElementById("video").style.width = window.innerWidth;
-	}
-
-	openModal() {
-		this.setState({showModal: true});
-	}
-
-	closeModal(contactInfo) {
-		this.setState({showModal: false});
-		console.log(contactInfo);
 	}
 
 	render(){
@@ -309,3 +285,6 @@ export default class Webcam extends Component {
 		);
 	}
 }
+
+export default Webcam;
+
