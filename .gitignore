@@ -1,4 +1,4 @@
-node_modules
+client/node_modules
 .DS_Store
-public/*.hot-update.*
-public/spbs-core.js
+client/public/*.hot-update.*
+client/public/spbs-core.js
