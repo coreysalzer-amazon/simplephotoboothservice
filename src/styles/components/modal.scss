@@ -7,3 +7,66 @@
     box-shadow: 0 1px 1px black inset, 0 0 8px black;
     outline: 0 none;
 }
+
+.hidden {
+	display: none;
+}
+
+.backdrop {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.3);
+	padding: 50px;
+}
+
+.modal-container {
+  background-color: black;
+  border-radius: 5px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#modal-heading {
+  color: #FFA717;
+  font-size: large;
+  font-weight: 300;
+}
+
+#contact-info {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-size: xx-large;
+  text-align: center;
+  background: black;
+  border-color: black;
+  color: #FFA717; 
+  font-weight: bold;
+}
+
+#send-button {
+  display: block;
+  margin: 0 auto;
+}
+
+#error-message {
+  color: maroon;
+  font-style: italic;
+  font-weight: 700;
+  margin-bottom: 5px;
+  visibility: hidden;
+}
+
+#modal-close {
+  color: #FFA717;
+  font-weight: bold;
+  background: black;
+  border-color: black;
+  font-size: large;
+  margin-top: -20px;
+  margin-left: -10px;
+}

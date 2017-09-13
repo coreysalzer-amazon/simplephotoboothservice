@@ -243,22 +243,22 @@ class Webcam extends Component {
 			captureRemove.style.display = "none";
 			captureUpload.style.display = "none";
 			photo.style.display = "none";
-			video.style.display = "inline-block";
+			video.style.display = "block";
 			canvas.style.display = "none";
-			capture.style.display = "inline-block";
+			capture.style.display = "block";
 			e.preventDefault();
 		}, false);
 
 		// Handle click event for uploading captured image
+		// Event for Save button
 		captureUpload.addEventListener('click', function(e){
 			self.storeCaptureState(0);
 			captureRemove.style.display = "none";
 			captureUpload.style.display = "none";
-			photo.style.display = "none";
-			video.style.display = "inline-block";
+			photo.style.display = "block";
+			video.style.display = "none";
 			canvas.style.display = "none";
-			capture.style.display = "inline-block";
-			//self.openModal();
+			capture.style.display = "none";
 			e.preventDefault();
 		}, false);
 
@@ -270,7 +270,7 @@ class Webcam extends Component {
 				captureRemove.style.display = "none";
 				captureUpload.style.display = "none";
 				photo.style.display = "none";
-				video.style.display = "inline-block";
+				video.style.display = "block";
 				canvas.style.display = "none";
 				self.storeCaptureState(0);
 			}

@@ -7,6 +7,10 @@ import {
 	storeCaptureState
 } from '../actions/webcam';
 
+import {
+	storeModalState
+} from '../actions/modal';
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		storeStream: (stream) => {
@@ -20,13 +24,17 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		storeCaptureState: (state) => {
 			dispatch(storeCaptureState(state));	
+		},
+		storeModalState: (state) => {
+			dispatch(storeModalState(state));
 		}
 	};
 };
 
 function mapStateToProps(state){
 	return {
-		webcam: state.webcam	
+		webcam: state.webcam,
+		modal: state.modal	
 	};
 }
 
