@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import API from '../lib/APIClient';
 
 class Webcam extends Component {
 	constructor(){
@@ -205,12 +206,9 @@ class Webcam extends Component {
 	 */
 	uploadImage(){
 		// Get image from canvas element
-		let data = document.querySelector("#canvas");
-		data.toDataURL('image/png');
-		let photo = document.querySelector("#photo");
-		photo.setAttribute('src', data);
-		let canvas = document.querySelector("#canvas");
-		canvas.style.display = "none";
+		let data = document.getElementById("canvas").toDataURL('image/png');
+		document.getElementById("photo").setAttribute('src', data);
+		document.getElementById("canvas").style.display = "none";
 
 		// Code below from stackoverflow
 		// http://stackoverflow.com/a/12300351
@@ -228,7 +226,10 @@ class Webcam extends Component {
 
 		// Create Form Data instance and inject the image
 		var fd = new FormData();
-		fd.append('file', blob, Date.now() + '.jpg');
+		fd.append('file', blob, Date.now() + '.png');
+		
+		// example of api call
+		return API.photos.uploadPhoto(fd);
 	}
 
 	removeCapturedImage() {
@@ -278,6 +279,11 @@ class Webcam extends Component {
 			video.style.display = "none";
 			canvas.style.display = "none";
 			capture.style.display = "none";
+			self.uploadImage().then((res) => {
+				console.log(res.data);	
+			}).catch((err) => {
+				console.log(err);	
+			});
 			e.preventDefault();
 		}, false);
 

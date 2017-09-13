@@ -2,11 +2,15 @@ import axios from 'axios';
 
 class HTTPClient {
 	constructor(){
-		this.URL = "http://google.com";
+		this.URL = "http://localhost:7890/api/v1/";
 	}
 
-	get(url){
-		return axios.get(url);
+	get(path){
+		return axios.get(this.URL + path);
+	}
+
+	post(path, data, config){
+		return axios.post(this.URL + path, data, config);
 	}
 }
 
@@ -15,11 +19,22 @@ class PhotosAPI extends HTTPClient {
 	constructor(){
 		super();
 		this.getAllPhotos = this.getAllPhotos.bind(this);
+		this.uploadPhoto = this.uploadPhoto.bind(this);
 	}
 
 	// GET - ["/photos"]
 	getAllPhotos(){
-		return this.get('http://localhost:3456/');
+		return this.get('');
+	}
+
+	// POST - ["/photos"]
+	uploadPhoto(photo){
+		const config = {
+        	headers: {
+            	'content-type': 'multipart/form-data'
+        	}
+    	};
+		return this.post("photos", photo, config);
 	}
 }
 
