@@ -1,5 +1,6 @@
 //Code from https://github.com/dceddia/modal-in-react
 import React, { Component } from 'react';
+import removeCapturedImage from './Webcam'
 import { hasClass, removeClass, addClass } from '../utils/dom';
 
 class Modal extends React.Component {
@@ -8,6 +9,7 @@ class Modal extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.sendButtonClicked = this.sendButtonClicked.bind(this);
+    this.cancelSendPhoto = this.cancelSendPhoto.bind(this);
   }
 
   openModal() {
@@ -18,6 +20,11 @@ class Modal extends React.Component {
   closeModal() {
     this.props.state.storeModalState(false);
     addClass(document.getElementById('modal-window-container'), 'hidden');
+  }
+
+  cancelSendPhoto() {
+    this.closeModal();
+    this.props.state.resetWebcam(true);
   }
 
   sendButtonClicked() {
@@ -53,7 +60,7 @@ class Modal extends React.Component {
       <div id="modal-window-container" className="modal-window-container hidden">
         <div className="backdrop">
           <div className="modal-container">
-            <button id="modal-close" onClick={this.closeModal}>X</button>
+            <button id="modal-close" onClick={this.cancelSendPhoto}>X</button>
             <center id="modal-heading">Send To Email or Phone Number</center>
             <input id="contact-info" autoFocus></input>
             <center id="error-message">Invalid Input</center>
