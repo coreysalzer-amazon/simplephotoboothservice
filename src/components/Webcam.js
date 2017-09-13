@@ -92,9 +92,8 @@ class Webcam extends Component {
 				self.storeStream(stream);
 			} else {
 				// All other streams
+				video.srcObject = stream;
 				self.storeStream(stream);
-				var vendorURL = window.URL || window.webkitURL;
-				video.src = vendorURL.createObjectURL(stream);
 			}
 			video.play();
 		}, function(err) {
