@@ -4,7 +4,8 @@ import {
 	storeStream, 
 	storeHeight,
 	storeWidth,
-	storeCaptureState
+	storeCaptureState,
+	resetWebcam
 } from '../actions/webcam';
 
 import {
@@ -24,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		storeCaptureState: (state) => {
 			dispatch(storeCaptureState(state));	
+		},
+		resetWebcam: (state) => {
+			dispatch(resetWebcam(state));	
 		},
 		storeModalState: (state) => {
 			dispatch(storeModalState(state));

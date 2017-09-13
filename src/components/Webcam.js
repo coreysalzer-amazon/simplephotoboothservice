@@ -6,6 +6,7 @@ class Webcam extends Component {
 		// Camera methods
 		this.enableWebcam = this.enableWebcam.bind(this);
 		this.disableWebcam = this.disableWebcam.bind(this);
+		this.removeCapturedImage = this.removeCapturedImage.bind(this);
 		this.registerCameraEvents = this.registerCameraEvents.bind(this);
 		this.takePicture = this.takePicture.bind(this);
 		this.uploadImage = this.uploadImage.bind(this);
@@ -26,6 +27,14 @@ class Webcam extends Component {
 			self.props.state.storeHeight(window.innerHeight);
 			self.props.state.storeWidth(window.innerWidth);
 		};
+	}
+
+	componentWillUpdate(nextProps, nextState) {
+	  if (nextProps.state.webcam.resetState) {
+	  	this.props.state.resetWebcam(false);
+	    this.removeCapturedImage();
+		this.enableWebcam();
+	  }
 	}
 	
 	/**
@@ -222,6 +231,22 @@ class Webcam extends Component {
 		fd.append('file', blob, Date.now() + '.jpg');
 	}
 
+	removeCapturedImage() {
+		this.storeCaptureState(0);
+		var captureRemove = document.querySelector("#capture-remove");
+		var captureUpload = document.querySelector("#capture-upload");
+		var video = document.getElementById("video");
+		var photo = document.getElementById("photo");
+		var canvas = document.getElementById("canvas");
+		var capture = document.querySelector('#capture');
+		captureRemove.style.display = "none";
+		captureUpload.style.display = "none";
+		photo.style.display = "none";
+		video.style.display = "block";
+		canvas.style.display = "none";
+		capture.style.display = "block";
+	}
+
 	/**
 	 * Register Camera Events
 	 * @description: Register the camera button events
@@ -239,13 +264,7 @@ class Webcam extends Component {
 		var self = this;
 		// Handle click event for removing captured image
 		captureRemove.addEventListener('click', function(e){
-			self.storeCaptureState(0);
-			captureRemove.style.display = "none";
-			captureUpload.style.display = "none";
-			photo.style.display = "none";
-			video.style.display = "block";
-			canvas.style.display = "none";
-			capture.style.display = "block";
+			self.removeCapturedImage();
 			e.preventDefault();
 		}, false);
 

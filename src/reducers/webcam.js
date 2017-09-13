@@ -2,14 +2,16 @@ import {
 	STORE_STREAM, 
 	STORE_HEIGHT,
 	STORE_WIDTH,
-	STORE_CAPTURE_STATE
+	STORE_CAPTURE_STATE,
+	RESET_WEBCAM
 } from '../actions/webcam';
 
 const INITIAL_STATE = {
 	height: window.innerHeight,
 	width: window.innerWidth,
 	stream: null,
-	captureState: 0
+	captureState: 0,
+	resetState: false
 };
 
 export default function(state=INITIAL_STATE, action){
@@ -37,6 +39,13 @@ export default function(state=INITIAL_STATE, action){
 				...state,
 				captureState: action.payload
 			};
+			break;
+		case RESET_WEBCAM:
+			return {
+				...state,
+				resetState: action.payload
+			};
+			break;
 		default:
 			return state;
 			break;
