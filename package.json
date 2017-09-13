@@ -11,6 +11,7 @@
 	"author": "Miguel Cervantes (migcerva@), Corey Salzer (salzer@)",
 	"license": "MIT",
 	"dependencies": {
+		"aws-sdk": "^2.114.0",
 		"axios": "^0.15.3",
 		"babel-core": "^6.7.6",
 		"babel-loader": "^6.2.4",
@@ -20,6 +21,7 @@
 		"bluebird": "^3.4.7",
 		"css-loader": "^0.23.1",
 		"google-libphonenumber": "^3.0.3",
+		"grunt": "^1.0.1",
 		"morgan": "^1.8.2",
 		"node-sass": "^3.4.2",
 		"prop-types": "^15.5.6",

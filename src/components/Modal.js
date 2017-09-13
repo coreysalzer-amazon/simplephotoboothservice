@@ -52,6 +52,8 @@ class Modal extends React.Component {
       return;
     }
 
+    // call API here
+
     this.closeModal();
   }
 
