@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import clone from 'clone';
 
 class Webcam extends Component {
 	constructor(){
@@ -178,7 +177,7 @@ class Webcam extends Component {
 		// Delay this to wait for image to load and be drawn to canvas
 		setTimeout(function(){
 			// Get image attached to the canvas
-			var data = clone(canvas.toDataURL('image/png'));
+			var data = canvas.toDataURL('image/png');
 
 			// Set the image to the photo element
 			photo.setAttribute('src', data);
