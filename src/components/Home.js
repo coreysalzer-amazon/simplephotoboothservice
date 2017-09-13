@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import Modal from './Modal';
 import Webcam from './Webcam';
+import API from '../lib/APIClient';
 
 class Home extends Component {
 	componentDidMount(){
 		var self = this;
 		// Enable the webcam
 		setTimeout(function(){
-			self._webcam.enableWebcam()
+			//self._webcam.enableWebcam()
 		}, 1000);
+
+		// example of api call
+		API.photos.getAllPhotos().then((res) => {
+			console.log(res.data);	
+		}).catch((err) => {
+			console.log(err);	
+		});
 	}
 
 	openModal(){
