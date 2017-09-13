@@ -1,7 +1,7 @@
 {
-	"name": "simple-photobooth-service",
+	"name": "simple-photobooth-service-client",
 	"version": "1.0.0",
-	"description": "Simple Photoboot Service",
+	"description": "Simple Photobooth Service - Client",
 	"main": "app.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
