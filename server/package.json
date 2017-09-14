@@ -11,6 +11,7 @@
   "author": "Miguel Cervantes (migcerva@), Corey Salzer (salzer@)",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.115.0",
     "body-parser": "1.15.0",
     "express": "4.13.4",
     "express-fileupload": "^0.2.0",

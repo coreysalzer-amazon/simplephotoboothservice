@@ -28,11 +28,14 @@ class PhotosAPI extends HTTPClient {
 	}
 
 	// POST - ["/photos"]
-	uploadPhoto(photo){
+	uploadPhoto(photo, contactInfo){
+		var params = "?type=" + contactInfo.type + "&value=" + contactInfo.value;
+
 		const config = {
         	headers: {
             	'content-type': 'multipart/form-data'
-        	}
+        	}, 
+        	params: params
     	};
 		return this.post("photos", photo, config);
 	}

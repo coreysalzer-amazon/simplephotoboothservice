@@ -5,6 +5,7 @@ import {
 	storeHeight,
 	storeWidth,
 	storeCaptureState,
+	storePhoto,
 	resetWebcam
 } from '../actions/webcam';
 
@@ -25,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		storeCaptureState: (state) => {
 			dispatch(storeCaptureState(state));	
+		},
+		storePhoto: (photoData) => {
+			dispatch(storePhoto(photoData));	
 		},
 		resetWebcam: (state) => {
 			dispatch(resetWebcam(state));	

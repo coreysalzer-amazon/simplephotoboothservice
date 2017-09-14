@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import removeCapturedImage from './Webcam'
 import { hasClass, removeClass, addClass } from '../utils/dom';
+import { prepareImageUploadData } from '../utils/dataPreparation';
+import API from '../lib/APIClient';
 
 class Modal extends React.Component {
   constructor(){
@@ -51,6 +53,8 @@ class Modal extends React.Component {
       document.getElementById("contact-info").style.autoFocus = true;
       return;
     }
+
+    return API.photos.uploadPhoto(prepareImageUploadData(this.props.state.webcam.photoData), contactInfo);
 
     this.closeModal();
   }
