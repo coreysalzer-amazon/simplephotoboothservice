@@ -185,8 +185,10 @@ class Camera extends Component {
 
 		// Draw AWS logo on to photo
 		var img = new Image();
+		let awsWidth = 153;
+		let awsHeight = 75;
 		img.onload = function () {
-    		ctx.drawImage(img, 0, 0, 150, 93);
+    		ctx.drawImage(img, vidWidth - awsWidth - 30, vidHeight - awsHeight - 30, awsWidth, awsHeight);
 		}
 		img.src = "/img/aws.png";
 		
