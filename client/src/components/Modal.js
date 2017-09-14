@@ -49,14 +49,24 @@ class Modal extends React.Component {
 		//var contactInfo = {'type': 'phone', 'value': result}
     }
     else {
-      document.getElementById("error-message").style.visibility = "visible";
+      var messageElement = document.getElementById("message");
+      messageElement.style.visibility = "visible";
+      messageElement.text = "Invalid Input";
+      addClass(messageElement, "error");
       document.getElementById("contact-info").style.autoFocus = true;
       return;
     }
 
-    return API.photos.uploadPhoto(prepareImageUploadData(this.props.state.camera.photoData), contactInfo);
+    var response = API.photos.uploadPhoto(prepareImageUploadData(this.props.state.webcam.photoData), contactInfo);
+    setTimeout(function(){
+      var messageElement = document.getElementById("message");
+      messageElement.style.visibility = "visible";
+      messageElement.text = "Success! The link to your photo has been sent to your " + contactInfo.type;
+      addClass(messageElement, "success");
+    }, 200);
 
     this.closeModal();
+
   }
 
   render() {
@@ -67,7 +77,7 @@ class Modal extends React.Component {
             <button id="modal-close" onClick={this.cancelSendPhoto}>X</button>
             <center id="modal-heading">Send To Email or Phone Number</center>
             <input id="contact-info" autoFocus></input>
-            <center id="error-message">Invalid Input</center>
+            <center id="message"></center>
             <div className="footer">
               <input id="send-button" type="image" src="/img/snsicon.png" onClick={this.sendButtonClicked}></input>
             </div>

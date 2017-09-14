@@ -53,12 +53,20 @@
   margin: 0 auto;
 }
 
-#error-message {
-  color: maroon;
-  font-style: italic;
+#message {
   font-weight: 700;
   margin-bottom: 5px;
   visibility: hidden;
+}
+
+.error {
+  color: maroon;
+  font-style: italic;
+}
+
+.success {
+  color: green;
+  font-style: bold;
 }
 
 #modal-close {
