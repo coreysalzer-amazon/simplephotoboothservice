@@ -34,10 +34,9 @@ class PhotosAPI extends HTTPClient {
 		const config = {
         	headers: {
             	'content-type': 'multipart/form-data'
-        	}, 
-        	params: params
+        	}
     	};
-		return this.post("photos", photo, config);
+		return this.post("photos" + params, photo, config);
 	}
 }
 

@@ -29,19 +29,25 @@ router.post('/', (req, res) => {
 
   var params = {
     Bucket: "simplephotoboothservice-admin", 
-    Key: 'key1', 
+    Key: 'sfo10-IMG' + new Date().getTime(), 
     Body: req.files.file.data, 
     Metadata: {
       'contactType': type,
       'contactValue': value
     }
   };
+
+  var photoUrl = null;
   s3.upload(params, function(err, data) {
     console.log(err, data);
+    photoUrl = data.Location;
   });
 
-  if (type == "email") {
-      messagingUtil.sendEmail(value)
+  if (type === "email") {
+    messagingUtil.sendEmail(value, photoUrl);
+  }
+  else if (type === "phone") {
+    messagingUtil.sendText(value, photoUrl);
   }
 
 });
