@@ -1,0 +1,1 @@
+require('./photos_test');
