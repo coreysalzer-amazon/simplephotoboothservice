@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import API from '../lib/APIClient';
 
 class Webcam extends Component {
 	constructor(){
@@ -10,12 +9,12 @@ class Webcam extends Component {
 		this.removeCapturedImage = this.removeCapturedImage.bind(this);
 		this.registerCameraEvents = this.registerCameraEvents.bind(this);
 		this.takePicture = this.takePicture.bind(this);
-		this.uploadImage = this.uploadImage.bind(this);
 		this.getVideoDimensions = this.getVideoDimensions.bind(this);
 		
 		// State methods	
 		this.storeStream = this.storeStream.bind(this);
 		this.storeCaptureState = this.storeCaptureState.bind(this);
+		this.storePhoto = this.storePhoto.bind(this);
 	}
 
 	componentDidMount(){
@@ -46,6 +45,16 @@ class Webcam extends Component {
 	 */
 	storeStream(stream){
 		this.props.state.storeStream(stream);	
+	}
+
+	/**
+	 * StorePhoto
+	 * @description: Store the photo data
+	 * @param: {object} photoData | photo data
+	 * @return: {none}
+	 */
+	storePhoto(photoData){
+		this.props.state.storePhoto(photoData);	
 	}
 
 	/**
@@ -143,6 +152,7 @@ class Webcam extends Component {
 	 * @return: {none}
 	 */
 	takePicture() {
+		var self = this;
 		let video = document.getElementById("video");
 		let canvas = document.getElementById("canvas");
 		let photo = document.getElementById("photo");
@@ -155,10 +165,10 @@ class Webcam extends Component {
 		photo.style.display = "block";
 		
 		// Hide the video div
-		let vidHeight = this.getVideoDimensions()["height"];
-		let vidWidth = this.getVideoDimensions()["width"];
+		let vidHeight = self.getVideoDimensions()["height"];
+		let vidWidth = self.getVideoDimensions()["width"];
 		video.style.display = "none";
-		this.storeCaptureState(1);
+		self.storeCaptureState(1);
 		
 		// Hide the capture button
 		capture.style.display = "none";
@@ -195,45 +205,15 @@ class Webcam extends Component {
 
 			// Hide the canvas
 			canvas.style.display = "none";
+
+			//store the photo as a state variable
+			self.storePhoto(data);
 		}, 200);
-	}
-
-	/**
-	 * Upload Image
-	 * @description: Upload the still image taken to the server
-	 * @param: {none}
-	 * @return: {promise} Upload image to server
-	 */
-	uploadImage(){
-		// Get image from canvas element
-		let data = document.getElementById("canvas").toDataURL('image/png');
-		document.getElementById("photo").setAttribute('src', data);
-		document.getElementById("canvas").style.display = "none";
-
-		// Code below from stackoverflow
-		// http://stackoverflow.com/a/12300351
-		var byteString = atob(data.split(',')[1]);
-		// separate out the mime component
-		var mimeString = data.split(',')[0].split(':')[1].split(';')[0]
-		// write the bytes of the string to an ArrayBuffer
-		var ab = new ArrayBuffer(byteString.length);
-		var ia = new Uint8Array(ab);
-		for(var i = 0; i < byteString.length; i++){
-			ia[i] = byteString.charCodeAt(i);
-		}
-		// write the ArrayBuffer to a blob, and you're done
-		var blob = new Blob([ab], { type: mimeString });
-
-		// Create Form Data instance and inject the image
-		var fd = new FormData();
-		fd.append('file', blob, Date.now() + '.png');
-		
-		// example of api call
-		return API.photos.uploadPhoto(fd);
 	}
 
 	removeCapturedImage() {
 		this.storeCaptureState(0);
+		this.storePhoto(null);
 		var captureRemove = document.querySelector("#capture-remove");
 		var captureUpload = document.querySelector("#capture-upload");
 		var video = document.getElementById("video");
@@ -279,11 +259,6 @@ class Webcam extends Component {
 			video.style.display = "none";
 			canvas.style.display = "none";
 			capture.style.display = "none";
-			self.uploadImage().then((res) => {
-				console.log(res.data);	
-			}).catch((err) => {
-				console.log(err);	
-			});
 			e.preventDefault();
 		}, false);
 
