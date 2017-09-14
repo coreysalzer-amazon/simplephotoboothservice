@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import Modal from './Modal';
-import Webcam from './Webcam';
+import Camera from './Camera';
 
 class Home extends Component {
 	componentDidMount(){
 		var self = this;
 		// Enable the webcam
 		setTimeout(function(){
-			self._webcam.enableWebcam()
+			self._camera.enableCamera()
 		}, 1000);
 	}
 
 	openModal(){
-		this._webcam.disableWebcam();
+		this._camera.disableCamera();
 		this._modal.openModal();
 	}
 
@@ -22,7 +22,7 @@ class Home extends Component {
 				<div className="camera-container">
 					<i className="capture-button-options-close fa fa-close" id="capture-remove"></i>
 					<i className="capture-button-options-save fa fa-save" id="capture-upload" onClick={this.openModal.bind(this)}></i>
-					<Webcam state={this.props} ref={(webcam) => { this._webcam = webcam}}/>
+					<Camera state={this.props} ref={(camera) => { this._camera = camera}}/>
 					<canvas id="canvas"></canvas>
 					<img src="" id="photo" alt=""/>
 					<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav"></audio>

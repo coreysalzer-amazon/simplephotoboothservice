@@ -5,7 +5,7 @@ import {
 	STORE_CAPTURE_STATE,
 	STORE_PHOTO,
 	RESET_WEBCAM
-} from '../actions/webcam';
+} from '../actions/camera';
 
 const INITIAL_STATE = {
 	height: window.innerHeight,
