@@ -3,7 +3,7 @@ export const STORE_HEIGHT = "STORE_HEIGHT";
 export const STORE_WIDTH = "STORE_WIDTH";
 export const STORE_CAPTURE_STATE = "STORE_CAPTURE_STATE";
 export const STORE_PHOTO = "STORE_PHOTO";
-export const RESET_WEBCAM = "RESET_WEBCAM"; 
+export const RESET_CAMERA = "RESET_CAMERA"; 
 
 export function storeStream(stream){
 	return {
@@ -40,9 +40,9 @@ export function storePhoto(photoData) {
 	}
 }
 
-export function resetWebcam(state){
+export function resetCamera(state){
 	return {
-		type: RESET_WEBCAM,
+		type: RESET_CAMERA,
 		payload: state
 	};
 };

@@ -1,6 +1,6 @@
 //Code from https://github.com/dceddia/modal-in-react
 import React, { Component } from 'react';
-import removeCapturedImage from './Webcam'
+import removeCapturedImage from './Camera'
 import { hasClass, removeClass, addClass } from '../utils/dom';
 import { prepareImageUploadData } from '../utils/dataPreparation';
 import API from '../lib/APIClient';
@@ -26,7 +26,7 @@ class Modal extends React.Component {
 
   cancelSendPhoto() {
     this.closeModal();
-    this.props.state.resetWebcam(true);
+    this.props.state.resetCamera(true);
   }
 
   sendButtonClicked() {
@@ -54,7 +54,7 @@ class Modal extends React.Component {
       return;
     }
 
-    return API.photos.uploadPhoto(prepareImageUploadData(this.props.state.webcam.photoData), contactInfo);
+    return API.photos.uploadPhoto(prepareImageUploadData(this.props.state.camera.photoData), contactInfo);
 
     this.closeModal();
   }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-class Webcam extends Component {
+class Camera extends Component {
 	constructor(){
 		super();
 		// Camera methods
-		this.enableWebcam = this.enableWebcam.bind(this);
-		this.disableWebcam = this.disableWebcam.bind(this);
+		this.enableCamera = this.enableCamera.bind(this);
+		this.disableCamera = this.disableCamera.bind(this);
 		this.removeCapturedImage = this.removeCapturedImage.bind(this);
 		this.registerCameraEvents = this.registerCameraEvents.bind(this);
 		this.takePicture = this.takePicture.bind(this);
@@ -30,10 +30,10 @@ class Webcam extends Component {
 	}
 
 	componentWillUpdate(nextProps, nextState) {
-	  if (nextProps.state.webcam.resetState) {
-	  	this.props.state.resetWebcam(false);
+	  if (nextProps.state.camera.resetState) {
+	  	this.props.state.resetCamera(false);
 	    this.removeCapturedImage();
-		this.enableWebcam();
+		this.enableCamera();
 	  }
 	}
 	
@@ -84,12 +84,12 @@ class Webcam extends Component {
 	}
 	
 	/**
-	 * Enable Webcam
-	 * @description: Enable the webcam
+	 * Enable Camera
+	 * @description: Enable the camera
 	 * @param: {none}
 	 * @return: {none}
 	 */
-	enableWebcam(){
+	enableCamera(){
 		let video = document.getElementById("video");
 		let canvas = document.getElementById("canvas");
 		navigator.getMedia = (
@@ -99,7 +99,7 @@ class Webcam extends Component {
 			navigator.msGetUserMedia
 		);
 		var self = this;
-		// Get the video stream from the webcam
+		// Get the video stream from the camera
 		navigator.getMedia({
 			video: true,
 			audio: false
@@ -115,24 +115,24 @@ class Webcam extends Component {
 			}
 			video.play();
 		}, function(err) {
-			console.log("Could not get the video stream from the webcam: " + err);
+			console.log("Could not get the video stream from the camera: " + err);
 		});
 
 		// Register video play event
 		video.addEventListener('canplay', function(ev){
-			video.setAttribute('width', self.props.state.webcam.width);
-			video.setAttribute('height', self.props.state.webcam.height);
+			video.setAttribute('width', self.props.state.camera.width);
+			video.setAttribute('height', self.props.state.camera.height);
 		}, false);
 	}
 
 	/**
-	 * Disable Webcam
-	 * @description: Disable the webcam
+	 * Disable Camera
+	 * @description: Disable the camera
 	 * @param: {none}
 	 * @return: {none}
 	 */
-	disableWebcam(){
-		this.props.state.webcam.stream.getTracks()[0].stop();
+	disableCamera(){
+		this.props.state.camera.stream.getTracks()[0].stop();
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Webcam extends Component {
 
 	/**
 	 * TakePicture
-	 * @description: Take a still image from the webcam
+	 * @description: Take a still image from the camera
 	 * @param: {none}
 	 * @return: {none}
 	 */
@@ -264,7 +264,7 @@ class Webcam extends Component {
 
 		// Handle click event for taking a picture
 		capture.addEventListener('click', function(e){
-			if(self.props.state.webcam.captureState == 0){
+			if(self.props.state.camera.captureState == 0){
 				self.takePicture();
 			} else {
 				captureRemove.style.display = "none";
@@ -285,5 +285,5 @@ class Webcam extends Component {
 	}
 }
 
-export default Webcam;
+export default Camera;
 

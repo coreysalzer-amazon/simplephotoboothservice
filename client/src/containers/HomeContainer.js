@@ -6,8 +6,8 @@ import {
 	storeWidth,
 	storeCaptureState,
 	storePhoto,
-	resetWebcam
-} from '../actions/webcam';
+	resetCamera
+} from '../actions/camera';
 
 import {
 	storeModalState
@@ -30,8 +30,8 @@ const mapDispatchToProps = (dispatch) => {
 		storePhoto: (photoData) => {
 			dispatch(storePhoto(photoData));	
 		},
-		resetWebcam: (state) => {
-			dispatch(resetWebcam(state));	
+		resetCamera: (state) => {
+			dispatch(resetCamera(state));	
 		},
 		storeModalState: (state) => {
 			dispatch(storeModalState(state));
@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function mapStateToProps(state){
 	return {
-		webcam: state.webcam,
+		camera: state.camera,
 		modal: state.modal	
 	};
 }

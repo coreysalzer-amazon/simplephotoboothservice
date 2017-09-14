@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import webcam from './webcam';
+import camera from './camera';
 import modal from './modal';
 
 export default combineReducers({
-	webcam,
+	camera,
 	modal
 });
