@@ -27,10 +27,10 @@ class Home extends Component {
 					<img src="" id="photo" alt=""/>
 					<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav"></audio>
 					<div className="capture-button-container">
-						<i id="capture" className="fa fa-circle-o"></i>
+						<i id="capture" className="fa fa-circle-o animated fadeInUp"></i>
 					</div>
 					<div className="brand-logo">
-						<img src="/img/aws.png" alt="aws"/>
+						<img id="projectLogo" src="/img/aws.png" className="animated fadeInLeft" alt="aws"/>
 					</div>
 				</div>
 				<Modal state={this.props} ref={(modal) => { this._modal = modal}}></Modal>
