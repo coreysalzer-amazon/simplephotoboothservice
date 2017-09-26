@@ -18,39 +18,52 @@ router.post('/', (req, res) => {
   if(!req.files)
     return res.status(400).send('No files were uploaded.');
 
-	// The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let sampleFile = req.files.file;
-
-  	// Use the mv() method to place the file somewhere on your server
-	sampleFile.mv('./uploads/file.jpg', function(err) {
-    	if(err) 
-        return res.status(500).send(err);
-		res.send('File uploaded!');
-	});
-
   var params = {
     Bucket: "simplephotoboothservice-admin", 
-    Key: 'sfo10-IMG' + new Date().getTime(), 
+    Key: new Date().getTime() + '-sfo10-IMG', 
     Body: req.files.file.data, 
+    ACL: "public-read",
     Metadata: {
       'contactType': type,
       'contactValue': value
     }
   };
 
-  var photoUrl = null;
   s3.upload(params, function(err, data) {
-    console.log(err, data);
-    photoUrl = data.Location;
+    if (err) {
+      console.log(err, err.stack);
+      return res.status(500).send("There was an issue uploading your photo.");
+    }
+    else {
+      console.log(data);
+
+      var photoUrl = data.Location;
+      if (type === "email") {
+        messagingUtil.sendEmail(value, photoUrl, function(err, data) {
+          if (err) {
+            console.log(err, err.stack);
+            return res.status(500).send("Your picture was uploaded, but there was an issue emailing you the S3 url.");
+          }
+          else {
+            console.log(data);
+            return res.sendStatus(200);
+          }
+        });
+      }
+      else if (type === "phone") {
+        messagingUtil.sendText(value, photoUrl, function(err, data) {
+          if (err) {
+            console.log(err, err.stack);
+            return res.status(500).send("Your picture was uploaded, but there was an issue texting you the S3 url.");
+          }
+          else {
+            console.log(data);
+            return res.sendStatus(200);
+          }
+        });
+      }
+    }
   });
-
-  if (type === "email") {
-    messagingUtil.sendEmail(value, photoUrl);
-  }
-  else if (type === "phone") {
-    messagingUtil.sendText(value, photoUrl);
-  }
-
 });
 
 module.exports = router;
