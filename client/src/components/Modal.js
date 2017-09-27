@@ -42,13 +42,13 @@ class Modal extends React.Component {
         var contactInfo = {'type': 'email', 'value': userInput};
     }
     else {
-      //convert number to E164 format for use with SNS - pulled from https://stackoverflow.com/questions/16748854/javascript-convert-phone-number-from-e164-to-international-format
+      //convert number to E164 format for use with SNS - adapted from https://stackoverflow.com/questions/16748854/javascript-convert-phone-number-from-e164-to-international-format
 		  var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
       var phoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 		  try {
         //assume US if they haven't entered + as the first character
         var countryCode = "US";
-        if (/^\+.*$/.test(userInput))  var countryCode = null;
+        if (/^\+.*$/.test(userInput))  countryCode = null;
         var number = phoneUtil.parse(userInput, countryCode);
 		    var result = phoneUtil.format(number, phoneNumberFormat.E164);
 		    var contactInfo = {'type': 'phone', 'value': result}
