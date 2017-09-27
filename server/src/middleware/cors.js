@@ -1,5 +1,5 @@
-module.exports = function(req, res, next){
-	var origin = req.get('Origin');
+let cors = function(req, res, next){
+	let origin = req.get('Origin');
 	if(origin){
 		res.header("Access-Control-Allow-Origin", origin);
 		res.header("Access-Control-Allow-Credentials", true);
@@ -7,3 +7,5 @@ module.exports = function(req, res, next){
 	}
 	next();
 };
+
+export default cors;
