@@ -5,6 +5,8 @@ import { hasClass, removeClass, addClass } from '../utils/dom';
 import { prepareImageUploadData } from '../utils/dataPreparation';
 import API from '../lib/APIClient';
 
+var Spinner = require('react-spinkit');
+
 class Modal extends React.Component {
   constructor(){
     super();
@@ -30,43 +32,66 @@ class Modal extends React.Component {
   }
 
   sendButtonClicked() {
+    var self = this;
     var userInput = document.getElementById("contact-info").value;
 
-    //TODO - validate these
     var emailRe = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var phoneRe = /^(\()?[2-9]{1}\d{2}(\))?(-|\s)?[2-9]{1}\d{2}(-|\s)\d{4}$/
     
     //Validate that input is an email address or phone number
     if (userInput != "" && emailRe.test(userInput)) {
         var contactInfo = {'type': 'email', 'value': userInput};
     }
-    else if (userInput != "" && phoneRe.test(userInput)) {
-      //convert number to E164 format for use with SNS - pulled from https://stackoverflow.com/questions/16748854/javascript-convert-phone-number-from-e164-to-international-format
-      //TODO - this is broken - need to import these libraries
-		//var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-		//var number = phoneUtil.parse(userInput, null);
-		//var result = phoneUtil.format(number, com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-		//var contactInfo = {'type': 'phone', 'value': result}
-    }
     else {
-      var messageElement = document.getElementById("message");
-      messageElement.style.visibility = "visible";
-      messageElement.text = "Invalid Input";
-      addClass(messageElement, "error");
-      document.getElementById("contact-info").style.autoFocus = true;
-      return;
+      //convert number to E164 format for use with SNS - adapted from https://stackoverflow.com/questions/16748854/javascript-convert-phone-number-from-e164-to-international-format
+		  var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+      var phoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
+		  try {
+        //assume US if they haven't entered + as the first character
+        var countryCode = "US";
+        if (/^\+.*$/.test(userInput))  countryCode = null;
+        var number = phoneUtil.parse(userInput, countryCode);
+		    var result = phoneUtil.format(number, phoneNumberFormat.E164);
+		    var contactInfo = {'type': 'phone', 'value': result}
+      }
+      catch(error) {
+        var messageElement = document.getElementById("message");
+        messageElement.style.visibility = "visible";
+        messageElement.textContent = "Invalid Phone Number: " + error.toString();
+        addClass(messageElement, "error");
+        document.getElementById("contact-info").style.autoFocus = true;
+        return;
+      }
     }
 
-    var response = API.photos.uploadPhoto(prepareImageUploadData(this.props.state.webcam.photoData), contactInfo);
-    setTimeout(function(){
-      var messageElement = document.getElementById("message");
-      messageElement.style.visibility = "visible";
-      messageElement.text = "Success! The link to your photo has been sent to your " + contactInfo.type;
-      addClass(messageElement, "success");
-    }, 200);
+    var spinner = document.getElementById("spinner");
+    spinner.style.visibility = "visible";
+    document.getElementById("modal-heading").style.display = "none";
+    document.getElementById("contact-info").style.display = "none";
+    document.getElementById("send-button").style.display = "none";
+    var messageElement = document.getElementById("message");
 
-    this.closeModal();
-
+    API.photos.uploadPhoto(prepareImageUploadData(self.props.state.camera.photoData), contactInfo)
+      .then((response) => {
+        spinner.style.visibility = "hidden";
+        messageElement.style.visibility = "visible";
+        messageElement.textContent = "Success! The link to your photo has been sent to your " + contactInfo.type;
+        addClass(messageElement, "success");
+        self.props.state.resetCamera(true);
+        setTimeout(function(){
+          self.closeModal();
+        }, 2000);
+      })
+      .catch((error) => {
+        spinner.style.visibility = "hidden";
+        messageElement.style.visibility = "visible";
+        messageElement.textContent = error.message;
+        addClass(messageElement, "error");
+        setTimeout(function(){
+          document.getElementById("modal-heading").style.display = null;
+          document.getElementById("contact-info").style.display = null;
+          document.getElementById("send-button").style.display = null;
+        }, 1000);
+      });
   }
 
   render() {
@@ -79,6 +104,7 @@ class Modal extends React.Component {
             <input id="contact-info" autoFocus></input>
             <center id="message"></center>
             <div className="footer">
+              <Spinner id="spinner" name="line-spin-fade-loader" color="orange"/>
               <input id="send-button" type="image" src="/img/snsicon.png" onClick={this.sendButtonClicked}></input>
             </div>
           </div>

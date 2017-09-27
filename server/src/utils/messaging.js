@@ -3,7 +3,7 @@ AWS.config.update({region:'us-west-2'});
 const SES = new AWS.SES();
 const SNS = new AWS.SNS();
 
-exports.sendEmail = function(emailAddress, url) {
+exports.sendEmail = function(emailAddress, url, callback) {
   var params = {
     Destination: {
       ToAddresses: [
@@ -25,20 +25,14 @@ exports.sendEmail = function(emailAddress, url) {
   Source: "salzer@amazon.com", 
  };
  
- SES.sendEmail(params, function(err, data) {
-   if (err) console.log(err, err.stack);
-   else     console.log(data);
- });
+ SES.sendEmail(params, function(err, data) { callback(err, data) });
 }
 
-exports.sendText = function(phoneNumber, url) {
+exports.sendText = function(phoneNumber, url, callback) {
   var params = {
     PhoneNumber: phoneNumber,
     Message: url
   };
 
-  SNS.publish(params, function(err, data) {
-   if (err) console.log(err, err.stack);
-   else     console.log(data);
- });
+  SNS.publish(params, function(err, data) { callback(err, data) });
 }
