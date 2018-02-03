@@ -1,0 +1,22 @@
+{
+	"ProjectName": "client",
+	"ProjectPath": "/Users/salzer/simplephotoboothservice/client",
+	"SourceDir": "src",
+	"DistributionDir": "build",
+	"BuildCommand": "npm run-script build",
+	"StartCommand": "npm run-script start",
+	"InitializationTime": "2018-02-03-13-15-37",
+	"LastConfigurationTime": "2018-02-03-13-15-54",
+	"LastNPMInstallTime": "2018-02-03-13-17-43",
+	"FrontendLastBuildTime": "",
+	"LastPublishTime": "",
+	"BackendFormat": "yml",
+	"BackendLastBuildTime": "2018-02-03-13-22-12",
+	"BackendLastUpdateTime": "2018-02-03-13-16-39",
+	"BackendLastUpdateSuccessful": true,
+	"BackendProjectID": "39f09147-b7a8-4ba9-a9de-49625a1a59c2",
+	"BackendProjectName": "client-2018-02-03-13-15-54",
+	"BackendProjectConsoleUrl": "https://console.aws.amazon.com/mobilehub/home#/39f09147-b7a8-4ba9-a9de-49625a1a59c2/build",
+	"BackendProjectCreationTime": "2018-02-03T21:16:02.811Z",
+	"BackendProjectLastUpdatedTime": "2018-02-03T21:16:37.754Z"
+}

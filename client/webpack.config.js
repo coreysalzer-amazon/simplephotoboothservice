@@ -20,7 +20,11 @@ module.exports = {
 		},{ 
 			test: /\.(css|scss|sass)$/,
 			loader: "style!css!sass"
-		}]
+		}],
+		noParse: [
+			/aws\-sdk/,
+			/google\-libphonenumber/
+		]
 	},
 	resolve: {
 		extensions: ["", ".js"]

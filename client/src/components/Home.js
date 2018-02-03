@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import Modal from './Modal';
 import Camera from './Camera';
+import LexAudio from '../utils/lex-audio';
+//const AWS = require('aws-sdk');
+
+require("aws-sdk/dist/aws-sdk");
+const AWS = window.AWS;
 
 class Home extends Component {
 	componentDidMount(){
@@ -9,6 +14,41 @@ class Home extends Component {
 		setTimeout(function(){
 			self._camera.enableCamera()
 		}, 1000);
+		
+		AWS.config.credentials = new AWS.Credentials("AKIAJHKKK7VH6KRPRMRA", "7zzlH08ZkQLKlxyCRINesq3gB/NqG0KXKdDOx+YE");
+        AWS.config.update({region:'us-east-1'});
+
+        config = {
+            lexConfig: { botName: "SimplePhotoBoothSerice" }
+        };
+
+        conversation = new LexAudio.conversation(config, function (state) {
+            if (state === 'Listening') {
+                console.log(state);
+            }
+            if (state === 'Sending') {
+                console.log(state);
+            }
+        }, function (data) {
+            console.log('Transcript: ', data.inputTranscript, ", Response: ", data.message);
+        }, function (error) {
+            message.textContent = error;
+        }, function (timeDomain, bufferLength) {
+            //waveform.visualizeAudioBuffer(timeDomain, bufferLength);
+        });
+        conversation.advanceConversation();
+
+		/* Trying out recording
+		var audioControl = new LexAudio.audioControl();
+		audioControl.supportsAudio(function(res){
+			audioControl.startRecording();
+		});
+		setTimeout(function(){
+			audioControl.exportWAV(function(blob){
+			  audioControl.play(blob);
+			});
+		}, 5000);*/
+
 	}
 
 	openModal(){
